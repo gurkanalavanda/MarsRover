@@ -41,11 +41,11 @@ namespace MarsRover.Houston
         {
             foreach (var roverMove in rover.RoverMoves)
             {
-                CanRoverMove(rover, roverMove);
-
                 var rule = rules[rover.CurrentDirection].FirstOrDefault(x => x.Item1 == roverMove);
 
                 rule.Item2(rover);
+
+                CanRoverMove(rover, roverMove);
             }
 
             return rover;
@@ -137,6 +137,10 @@ namespace MarsRover.Houston
                 throw new Exception("Plateau limitleri aşılacak. Rover durduruldu.");
             }
 
+            if (rover.CurrentCoordinate.X < 0 || rover.CurrentCoordinate.Y < 0)
+            {
+                throw new Exception("Sıfırdan küçük olamaz.");
+            }
         }
 
         public static List<RoverMove> ConvertCommandToRoverMoves(string command)
